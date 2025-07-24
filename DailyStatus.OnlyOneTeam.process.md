@@ -2,6 +2,8 @@
 
 ## Background
 
+I am a [Samman Techinical Coach](https://sammancoaching.org/) on a 2 week in person coaching engagement with a company called [Acme](https://companyname.example.com/).
+
 This process is the same as the one described in [DailyStatus.process.md](DailyStatus.process.md) except that since I am only coaching one team at the moment, you need to produce a status email for that team only.
 
 ## Steps
@@ -18,13 +20,13 @@ After drafting each section, invite rapid, iterative edits and confirmation from
    2.a. If there are none, skip this step and ask for the team's name.
    2.b. At the beginning of the `yyyy-mm-dd.md` file, add a main title header including the day number, weekday, and full date (e.g., `# Daily Status - Day [X] - [Weekday] - yyyy-mm-dd`).
 
-3. For each team/section, ask the following questions, one at a time:
+3. For each team/section, ask me the following questions, one at a time, waiting for me to enter an answer:
     1. What did you do?
     2. What surprised you?
     3. What went well?
     4. What progress was made?
     5. (If relevant) What challenges or pain points emerged?
-4. Distill the important parts. List them and confirm with the coach before proceeding.
+4. Distill the important parts of my answers. List them and confirm with me before proceeding.
 5. Distill the big picture value and business value from the parts. List and confirm with the coach before proceeding.
 6. Ask about the next steps and current goals. Always list "Next steps" and "Current goal" as bullet points at the end of each team/section.
 7. Confirm if there is anything else to add.
