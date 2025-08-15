@@ -20,7 +20,7 @@ You could clone a new copy of this repository for each client you work with. Upd
 
 Prompt a Gen AI tool using the whole folder as input and ask it to go through the Daily Status or Executive Summary process with you. For example, with this folder open in a tool like Windsurf you could give this prompt:
 
-  Please read @DailyStatus.process.md and follow the instructions
+    Please read @DailyStatus.process.md and follow the instructions
 
 It could be helpful to use a speech-to-text interface so you can answer the Gen AI's questions verbally instead of typing them. When it produces a text and image for you, store them in this folder.
 
