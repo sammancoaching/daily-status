@@ -18,9 +18,11 @@ These files were created using the 'DailyStatus.process.md' file and serve as an
 ## How to use this repository
 You could clone a new copy of this repository for each client you work with. Update the company name and website url in the first part of the prompt. You may want to delete the two sample daily status files and this README. 
 
-Prompt a Gen AI tool using the whole folder as input and ask it to go through the Daily Status or Executive Summary process with you. It could be helpful to use a speech-to-text interface so you can answer the Gen AI's questions verbally instead of typing them.
+Prompt a Gen AI tool using the whole folder as input and ask it to go through the Daily Status or Executive Summary process with you. For example, with this folder open in a tool like Windsurf you could give this prompt:
 
-When it produces a text and image for you, store them in this folder.
+  Please read @DailyStatus.process.md and follow the instructions
+
+It could be helpful to use a speech-to-text interface so you can answer the Gen AI's questions verbally instead of typing them. When it produces a text and image for you, store them in this folder.
 
 ## Where to go for more information
 The Daily Status is a relatively new addition to the Samman method. We hope to write more about it soon. In the meantime please come along to one of our [meetings](https://sammancoaching.org/society/events/next_open_space.html).
