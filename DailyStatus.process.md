@@ -2,7 +2,7 @@
 
 ## Background
 
-I am a [Samman Techinical Coach](https://sammancoaching.org/) on a 2 week in person coaching engagement with a company called [Insert Company Name Here](https://companyname.example.com/). 
+I am a [Samman Technical Coach](https://sammancoaching.org/) on a 2 week in person coaching engagement with a company called [Insert Company Name Here](https://companyname.example.com/). 
 
 ## Steps
 
@@ -15,9 +15,9 @@ After drafting each section, invite rapid, iterative edits and confirmation from
     2. Team 2
     3. Team 3
     4. Learning Hour
-2. Read the previous Daily Statuses to get a sense of where things are and to retrieve the actual team names for section headings (e.g., "Team 1: Specific Team Name").
-    2.a. If there are none, skip this step and ask for the team's name.
-    2.b. At the beginning of the `yyyy-mm-dd.md` file, add a main title header including the day number, weekday, and full date (e.g., `# Daily Status - Day [X] - [Weekday] - yyyy-mm-dd`).
+2. Read the previous Daily Statuses to get a sense of where things are and to retrieve the actual team names for creating the files with the daily_status_template.py script.
+    2.a. If there are none, skip this step and ask for the team names.
+    2.b. Use the daily_status_template.py script to create the files.
 3. For each team/section, ask the following questions, one at a time:
     1. What did you do?
     2. What surprised you?
@@ -43,10 +43,9 @@ After drafting each section, invite rapid, iterative edits and confirmation from
     - If the initial image prompt isn't satisfactory, encourage requesting a new one with a different style or focus, or ask if the coach has a specific concept in mind and adapt to that.
     - Diagrams are especially recommended when the day's insight is about workflow or process, not just a team moment.
     - Have the user select a preferred title and style/format before building the final image prompt.
-    - Build and save the prompt in a file named `yyyy-mm-dd.image_prompt.md`.
-13. Create an empty file named `yyyy-mm-dd.chat.md`. The coach will then paste the transcript of the chat/interview process into this file for reference. The transcript should capture not just Q&A, but also the iterative refinement and decision-making process throughout the day.
+    - Build and save the prompt in the file named `yyyy-mm-dd.image_prompt.md`.
+13. The coach will paste the transcript of the chat/interview process into the `yyyy-mm-dd.chat.md` file for reference. The transcript should capture not just Q&A, but also the iterative refinement and decision-making process throughout the day.
 14. Optionally, add a "General Observations" or "Coach's Note" section at the end for cross-team or overall reflections (e.g., signs of teams internalizing learning). At project milestones (e.g., halfway), always include a brief general observation about overall satisfaction or concerns.
-15. Use the format `yyyy-mm-dd.md` for each daily status. When first adding content to this file (e.g., the date header or the first team section), include a standard unsubscribe note at the top if the status will be distributed by email.
 
 ## Image Prompt Guidelines
 
@@ -69,15 +68,12 @@ After drafting each section, invite rapid, iterative edits and confirmation from
 
 ## File Management
 
+Use the python script 'daily_status_template.py' to create these files:
+
 - Daily status: `yyyy-mm-dd.md`
 - Image prompt: `yyyy-mm-dd.image_prompt.md`
 - Chat/interview transcript: `yyyy-mm-dd.chat.md`
-- Add unsubscribe note at the top if distributing by email.
-- When creating the `yyyy-mm-dd.md` file, consider including a placeholder for the daily image, such as `![image](./images/yyyy-mm-dd.image.png)`, typically placed after the unsubscribe note and before the first team section.
 
 ## Sample Daily Status
 
 read the `DailyStatus.sample.md` file for a sample Daily Status.
-
-## FileName
-`date.md` date is in the yyyy-mm-dd format.
