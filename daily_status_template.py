@@ -2,15 +2,7 @@
 import argparse
 from datetime import date, datetime
 from pathlib import Path
-
-
-def build_filenames(d):
-    base = d.strftime("%Y-%m-%d")
-    return [
-        f"{base}.md",
-        f"{base}.image_prompt.md",
-        f"{base}.chat.md",
-    ]
+from textwrap import dedent
 
 
 def parse_team_names(arg):
@@ -23,63 +15,92 @@ def parse_team_names(arg):
 def daily_status_content(d, teams):
     date_str = d.strftime("%Y-%m-%d")
     weekday = d.strftime("%A")
-    header = f"""# Daily Status - {weekday} - {date_str}
-If you would like to stop receiving these updates, reply with 'unsubscribe'.
+    header = dedent(
+        f"""\
+        # Daily Status - {weekday} - {date_str}
+        If you would like to stop receiving these updates, reply with 'unsubscribe'.
+    
+        ![Image]({date_str}_sample.png)
 
+        """)
 
-![Image]({date_str}_sample.png)
+    team_section = dedent(
+        """\
+        ## {team_name}: TODO - heading
+        TODO - write daily status here
 
-"""
+        """)
+
+    footer = dedent(
+        """\
+        ## Big-picture value:
+        TODO - write big picture value here
+
+        """)
 
     if teams:
         team_sections = ""
-        for t in teams:
-            team_sections += f"""## {t}: TODO - heading
-TODO - write daily status here
-
-"""
+        for team_name in teams:
+            team_sections += team_section.format(team_name=team_name)
     else:
-        team_sections = """## <team name>: TODO - heading
-TODO - write daily status here
-
-"""
-
-    footer = """## Big-picture value:
-TODO - write big picture value here
-
-"""
+        team_sections = team_section.format(team_name="<team name>")
 
     return header + team_sections + footer
 
 
 def image_prompt_content(d):
     date_str = d.strftime("%Y-%m-%d")
-    return f"""# Image Prompt - {date_str}
+    return dedent(
+        f"""\
+        # Image Prompt - {date_str}
 
-Describe the image concept for today.
+        Describe the image concept for today.
 
-"""
+        """)
 
 
 def chat_transcript_content(d):
     date_str = d.strftime("%Y-%m-%d")
-    return f"""# Chat / Interview Transcript - {date_str}
+    return dedent(
+        f"""\
+        # Chat / Interview Transcript - {date_str}
 
-Paste or write the transcript here.
+        Paste or write the transcript here.
 
-"""
+        """)
 
 
-def ensure_with_content(path: Path, content: str, created, skipped, force: bool = False):
-    if path.exists():
-        if force or path.stat().st_size == 0:
-            path.write_text(content, encoding="utf-8")
-            created.append(path)
-        else:
-            skipped.append(path)
-    else:
+def create_or_overwrite_with_content(path: Path, content: str, force: bool = False):
+    exists = path.exists()
+    is_empty = exists and path.stat().st_size == 0
+    should_write = (not exists) or force or is_empty
+
+    if should_write:
         path.write_text(content, encoding="utf-8")
-        created.append(path)
+        return True
+    else:
+        return False
+
+
+def create_files(args, project_dir, target_date, teams):
+    base = target_date.strftime("%Y-%m-%d")
+
+    filepaths_and_content = [
+        ((project_dir / f"{base}.md"), daily_status_content(target_date, teams)),
+        ((project_dir / f"{base}.image_prompt.md"), image_prompt_content(target_date)),
+        ((project_dir / f"{base}.chat.md"), chat_transcript_content(target_date)),
+    ]
+
+    created = []
+    skipped = []
+
+    for filepath, content in filepaths_and_content:
+        if create_or_overwrite_with_content(filepath, content, force=args.force):
+            created.append(filepath)
+        else:
+            skipped.append(filepath)
+
+    return created, skipped
 
 
 def main():
@@ -111,20 +132,9 @@ def main():
     else:
         target_date = date.today()
     project_dir = Path(__file__).resolve().parent
-    filenames = build_filenames(target_date)
-
     teams = parse_team_names(args.team_names)
 
-    created = []
-    skipped = []
-
-    daily_path = project_dir / filenames[0]
-    image_prompt_path = project_dir / filenames[1]
-    chat_path = project_dir / filenames[2]
-
-    ensure_with_content(daily_path, daily_status_content(target_date, teams), created, skipped, force=args.force)
-    ensure_with_content(image_prompt_path, image_prompt_content(target_date), created, skipped, force=args.force)
-    ensure_with_content(chat_path, chat_transcript_content(target_date), created, skipped, force=args.force)
+    created, skipped = create_files(args, project_dir, target_date, teams)
 
     if created:
         print("Written:")
@@ -134,6 +144,7 @@ def main():
         print("Skipped (already had content):")
         for p in skipped:
             print(f"  {p.relative_to(project_dir)}")
+
 
 
 if __name__ == "__main__":
