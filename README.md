@@ -3,6 +3,17 @@ Daily Status Support
 
 This repository contains supporting files that can help you to create a Daily Status email during [Samman Technical Coaching](https://sammancoaching.org/). The idea is that a coach can get some help from a Gen AI tool to create an email suitable to send to the team and their managers after each day of coaching. The email will include a summary of what has happened and an image to represent it.
 
+## How to use this repository
+You could clone a new copy of this repository for each client you work with. Update the company name and website url in the first part of the prompt. You may want to delete the two sample daily status files and this README. 
+
+Prompt a Gen AI tool using the whole folder as input and ask it to go through the Daily Status or Executive Summary process with you. For example, with this folder open in a tool like Windsurf you could give this prompt:
+
+    Please read @DailyStatus.process.md and follow the instructions
+
+It could be helpful to use a speech-to-text interface so you can answer the Gen AI's questions verbally instead of typing them. 
+
+When it produces an image prompt for you, use it to generate an image with an appropriate service. Store the image in this folder.
+
 ## DailyStatus.process.md 
 Use this prompt to create a daily status email and image. This prompt assumes you are coaching 3 teams each day plus doing a learning hour. It creates a status text and an image to go with it. The idea is to paste this into an email and send it to the team and other stakeholders.
 
@@ -15,16 +26,5 @@ Use this prompt at the end of a coaching day to distill what you as a coach have
 ## 2025-06-03_sample.md & 2025-06-03_sample.png
 These files were created using the 'DailyStatus.process.md' file and serve as an example to show what kind of thing you should expect.
 
-## How to use this repository
-You could clone a new copy of this repository for each client you work with. Update the company name and website url in the first part of the prompt. You may want to delete the two sample daily status files and this README. 
-
-Prompt a Gen AI tool using the whole folder as input and ask it to go through the Daily Status or Executive Summary process with you. For example, with this folder open in a tool like Windsurf you could give this prompt:
-
-    Please read @DailyStatus.process.md and follow the instructions
-
-It could be helpful to use a speech-to-text interface so you can answer the Gen AI's questions verbally instead of typing them. 
-
-When it produces an image prompt for you, use it to generate an image with an appropriate service. Store the image in this folder.
-
 ## Where to go for more information
-The Daily Status is a relatively new addition to the Samman method. We hope to write more about it soon. In the meantime please come along to one of our [meetings](https://sammancoaching.org/society/events/next_open_space.html).
+The Daily Status is a relatively new addition to the Samman method. We hope to write more about it soon. In the meantime please sign up for our [newsletter](https://sammancoaching.org/newsletter.html).
