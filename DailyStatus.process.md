@@ -26,7 +26,9 @@ After drafting each section, invite rapid, iterative edits and confirmation from
     5. (If relevant) What challenges or pain points emerged?
 4. Distill the important parts. List them and confirm with the coach before proceeding.
 5. Distill the big picture value and business value from the parts. List and confirm with the coach before proceeding.
-6. Ask about the next steps and current goals. Always list "Next steps" and "Current goal" as bullet points at the end of each team/section.
+6. Ask about the next steps and current goals.
+    - For team sections, always include "Next steps" and "Current goal" bullets at the end.
+    - Do not include these bullets for the Learning Hour.
 7. Confirm if there is anything else to add.
 8. Write a first draft of the Daily Status for that team/section.
 9. Iterate on the draft until it is complete and confirmed. Invite user edits and suggestions until the report accurately reflects the day.
@@ -73,6 +75,13 @@ Use the python script 'daily_status_template.py' to create these files:
 - Daily status: `yyyy-mm-dd.md`
 - Image prompt: `yyyy-mm-dd.image_prompt.md`
 - Chat/interview transcript: `yyyy-mm-dd.chat.md`
+
+Examples:
+
+```bash
+./daily_status_template.py
+./daily_status_template.py --team-names "Team Name 1,Team Name 2,Team Name 3"
+```
 
 ## Sample Daily Status
 
