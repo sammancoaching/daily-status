@@ -26,6 +26,21 @@ Each newly created file should contain a single first line with the date and the
 
 No other boilerplate is required here; section structure is guided by `DailyStatus.process.md`.
 
+### Daily status
+If the team names exist, the daily status file will also have sections for each team. Example:
+
+```
+## Team Name 1
+```
+
+## Optional flags
+The python script should accept optional flags to 
+
+* overwrite - allow it to overwrite the files if they exist
+* date - allow it to specify a date instead of using today's date
+* team-names - supply a list of team names to use instead of reading from the previous Daily Statuses. For example:
+  team-names="Phoenix,Rocket,Squiggle"
+
 ## Notes
 
 - Keep the script idempotent so it can be safely re-run.

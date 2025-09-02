@@ -1,36 +1,101 @@
+#!/usr/bin/env python3
+
 from datetime import datetime
 from pathlib import Path
+import argparse
+import re
+from typing import Optional, List
 
+def date_and_weekday(date_arg: Optional[str]):
+    if date_arg:
+        d = datetime.strptime(date_arg, "%Y-%m-%d").date()
+    else:
+        d = datetime.now().date()
+    return d.isoformat(), d.strftime("%A")
 
-def today_iso_and_weekday():
-    now = datetime.now()
-    return now.date().isoformat(), now.strftime("%A")
-
-
-def ensure_file(path: Path, title: str, date_str: str, weekday: str) -> bool:
-    if path.exists():
+def ensure_file(path: Path, content: str, overwrite: bool) -> bool:
+    if path.exists() and not overwrite:
         return False
-    path.write_text(f"# {date_str} {title} - {weekday}\n", encoding="utf-8")
+    path.write_text(content, encoding="utf-8")
     return True
 
+def parse_team_names_arg(raw: Optional[str]):
+    if not raw:
+        return []
+    return [x.strip() for x in raw.split(",") if x.strip()]
 
-def run(base_dir: Path) -> None:
-    date_str, weekday = today_iso_and_weekday()
+def find_previous_daily_status(base_dir: Path, target_iso_date: str):
+    target = datetime.strptime(target_iso_date, "%Y-%m-%d").date()
+    candidates = []
+    for p in base_dir.glob("????-??-??.md"):
+        try:
+            d = datetime.strptime(p.stem, "%Y-%m-%d").date()
+        except ValueError:
+            continue
+        if d < target:
+            candidates.append((d, p))
+    if not candidates:
+        return None
+    candidates.sort()
+    return candidates[-1][1]
+
+def extract_team_names(path: Path):
+    names = []
+    if not path or not path.exists():
+        return names
+    for line in path.read_text(encoding="utf-8").splitlines():
+        m = re.match(r"^##\s+Team:\s*(.+)\s*$", line)
+        if m:
+            names.append(m.group(1).strip())
+            continue
+        m2 = re.match(r"^##\s+Team\s+(.+)\s*$", line)
+        if m2:
+            names.append(m2.group(1).strip())
+    seen = set()
+    uniq = []
+    for n in names:
+        if n not in seen:
+            seen.add(n)
+            uniq.append(n)
+    return uniq
+
+def content_for(title: str, date_str: str, weekday: str, team_names: Optional[List[str]]):
+    lines = [f"# {date_str} {title} - {weekday}"]
+    if title == "Daily Status" and team_names:
+        for name in team_names:
+            lines.append("")
+            lines.append(f"## Team: {name}")
+    lines.append("")
+    return "\n".join(lines)
+
+def run(base_dir: Path, overwrite: bool = False, date_arg: Optional[str] = None, team_names_arg: Optional[str] = None) -> None:
+    date_str, weekday = date_and_weekday(date_arg)
+    provided_team_names = parse_team_names_arg(team_names_arg)
+    team_names = provided_team_names
+    if not team_names:
+        prev = find_previous_daily_status(base_dir, date_str)
+        team_names = extract_team_names(prev)
 
     targets = [
-        (base_dir / f"{date_str}.md", "Daily Status"),
-        (base_dir / f"{date_str}.image_prompt.md", "Image Prompt"),
-        (base_dir / f"{date_str}.chat.md", "Chat Transcript"),
+        (base_dir / f"{date_str}.md", "Daily Status", team_names),
+        (base_dir / f"{date_str}.image_prompt.md", "Image Prompt", None),
+        (base_dir / f"{date_str}.chat.md", "Chat/Interview Transcript", None),
     ]
 
-    created_any = False
-    for path, title in targets:
-        created = ensure_file(path, title, date_str, weekday)
-        created_any = created_any or created
-
-    if not created_any:
-        pass
+    for path, title, tnames in targets:
+        content = content_for(title, date_str, weekday, tnames)
+        ensure_file(path, content, overwrite)
 
 
 if __name__ == "__main__":
-    run(Path(__file__).resolve().parent)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--overwrite", action="store_true")
+    parser.add_argument("--date")
+    parser.add_argument("--team-names")
+    args = parser.parse_args()
+    run(
+        Path(__file__).resolve().parent,
+        overwrite=args.overwrite,
+        date_arg=args.date,
+        team_names_arg=args.team_names,
+    )
