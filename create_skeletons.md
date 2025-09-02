@@ -38,7 +38,7 @@ The python script should accept optional flags to
 
 * overwrite - allow it to overwrite the files if they exist
 * date - allow it to specify a date instead of using today's date
-* team-names - supply a list of team names to use instead of reading from the previous Daily Statuses. For example:
+* team-names - supply a list of team names to use. For example:
   team-names="Phoenix,Rocket,Squiggle"
 
 ## Notes

@@ -24,40 +24,6 @@ def parse_team_names_arg(raw: Optional[str]):
         return []
     return [x.strip() for x in raw.split(",") if x.strip()]
 
-def find_previous_daily_status(base_dir: Path, target_iso_date: str):
-    target = datetime.strptime(target_iso_date, "%Y-%m-%d").date()
-    candidates = []
-    for p in base_dir.glob("????-??-??.md"):
-        try:
-            d = datetime.strptime(p.stem, "%Y-%m-%d").date()
-        except ValueError:
-            continue
-        if d < target:
-            candidates.append((d, p))
-    if not candidates:
-        return None
-    candidates.sort()
-    return candidates[-1][1]
-
-def extract_team_names(path: Path):
-    names = []
-    if not path or not path.exists():
-        return names
-    for line in path.read_text(encoding="utf-8").splitlines():
-        m = re.match(r"^##\s+Team:\s*(.+)\s*$", line)
-        if m:
-            names.append(m.group(1).strip())
-            continue
-        m2 = re.match(r"^##\s+Team\s+(.+)\s*$", line)
-        if m2:
-            names.append(m2.group(1).strip())
-    seen = set()
-    uniq = []
-    for n in names:
-        if n not in seen:
-            seen.add(n)
-            uniq.append(n)
-    return uniq
 
 def content_for(title: str, date_str: str, weekday: str, team_names: Optional[List[str]]):
     lines = [f"# {date_str} {title} - {weekday}"]
@@ -72,9 +38,7 @@ def run(base_dir: Path, overwrite: bool = False, date_arg: Optional[str] = None,
     date_str, weekday = date_and_weekday(date_arg)
     provided_team_names = parse_team_names_arg(team_names_arg)
     team_names = provided_team_names
-    if not team_names:
-        prev = find_previous_daily_status(base_dir, date_str)
-        team_names = extract_team_names(prev)
+
 
     targets = [
         (base_dir / f"{date_str}.md", "Daily Status", team_names),
